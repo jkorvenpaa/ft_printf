@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 13:38:58 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/05/16 15:02:04 by jkorvenp         ###   ########.fr       */
+/*   Created: 2025/04/27 14:23:37 by jkorvenp          #+#    #+#             */
+/*   Updated: 2025/05/16 14:59:56 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Outputs the string ’s’ to the specified file descriptor.*/
+/*Outputs the integer ’n’ to the specified file
+descriptor.*/
 
-#include "ft_printf.h"
+#include"ft_printf.h"
 
-int	ft_putstr_fd(char *s, int fd)
+int	ft_putnbr_fd(int n, int fd)
 {
-	int	i;
 	int	r;
 
-	i = 0;
-	if (!s)
-		return (-1);
-	while (s[i])
+	r = 0;
+
+	if (n == -2147483648)
+		return (write(fd, "-2147483648", 11));
+	if (n < 0)
 	{
-		r = ft_putchar_fd(s[i], fd);
-		if (r != 1)
-			return (-1);
-		i++;
+		r = ft_putchar_fd('-', fd);
+		n = -1 * n;
 	}
-	return (i);
+	if (n > 9)
+		r += ft_putnbr_fd(n / 10, fd);
+	r += ft_putchar_fd((n % 10) + '0', fd);
+	return (r);
 }
