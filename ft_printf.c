@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:54:57 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/05/16 16:50:14 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:45:42 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int ft_printf(const char *str, ...)
     {
         if(str[i] == '%')
         {
+            if (str[i+1] == '\0')
+                break;
             i++;
             count = count + ft_helper(str[i], &list);
         }
@@ -42,13 +44,17 @@ int ft_printf(const char *str, ...)
 
 int main(void)
 {
-    int count;
-    int count2;
+   int count;
+   int count2;
 
-    count = ft_printf("hey%shey%c%x\n", "you",'r', -2147483647);
-    count2 = printf("hey%shey%c%x\n","you", 'r', -2147483647);
-    printf("%d\n", count);
-    printf("%d\n", count2);
+   char str[] = "hey";
+   void *pointer;
+   pointer = &str;
+
+   count = ft_printf("hello %x hello %u\n", -2147483647, -2147483647);
+   count2 = printf("hello %x hello %u\n", -2147483647, -2147483647);
+   printf("%d\n", count);
+   printf("%d\n", count2);
 
     return (0);
 }

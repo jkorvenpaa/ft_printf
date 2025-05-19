@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:54:09 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/05/16 16:48:12 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:45:03 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,73 +40,61 @@ static int ft_string(va_list *list)
     count = ft_putstr_fd(str,1);
     return (count);
 }
-// add negative numbers rule
 
-static int  converthex(int nb)
-{
-    int count;
-    int mod;
-
-    count = 0;
-    if (nb >= 16)
-        count += converthex(nb / 16);
-    mod = nb % 16;
-    if (mod > 9 && mod < 16)
-        mod = mod - 10 + 97;
-    else 
-        mod += '0';
-    count += ft_putchar_fd(mod, 1);
-    
-    return(count);
-}
-static int  ft_hex(va_list *list)
-{
-    int count;
-    int nb = va_arg(*list, int);
-    
-    count = converthex(nb);
-    return(count);
-} 
-
-/*static int ft_pointer(va_list *list, const char *str)
-{
-    int count;
-    void *vp = va_arg(*list, void *);
-    vp = &str;
-    count = ft_putstr_fd("0x", 1);
-    count += converthex()
-    return(count);
-}*/
 static int ft_decimal(va_list *list)
 {
     int count;
-    int c = va_arg(*list, int);
-    count = ft_putnbr_fd(c, 1);
+    int d = va_arg(*list, int);
+    count = ft_putnbr_fd(d, 1);
+    return (count);
+}
+static int ft_undecimal(va_list *list)
+{
+    int count;
+    unsigned int u = va_arg(*list, unsigned int);
+    
+    count = ft_unsigned_putnbr_fd(u, 1);
+    return (count);
+}
+
+static int  ft_hex(va_list *list, const char type)
+{
+    int count;
+    unsigned long nb = va_arg(*list, unsigned long);
+    
+    count = ft_converthex(nb, type);
+    return (count);
+}  
+
+static int ft_pointer(va_list *list, const char type)
+{
+    int count;
+    void *vp = va_arg(*list, void*);
+    uintptr_t nb;
+    nb = (uintptr_t)vp;
+
+    count = ft_putstr_fd("0x", 1);
+    count += ft_converthex(nb, type);
     return (count);
 }
 int ft_helper(const char type, va_list *list)
 {
     int count;
-
-//    if (type == '%')
-//        count =
-
+    
     count = 0;
+    if (type == '%')
+        count = ft_putchar_fd(type, 1);
     if (type == 'c')
         count = ft_char(list);
     if (type == 's')
         count = ft_string(list);
     if (type == 'd' || type == 'i')
         count = ft_decimal(list);
-    if (type == 'x')
-        count = ft_hex(list);
+    if (type == 'u')
+        count = ft_undecimal(list);
+    if (type == 'p')
+        count = ft_pointer(list, type);
+    if (type == 'x' || type == 'X')
+        count = ft_hex(list, type);
     return (count);
 }
-        //    if (type == 'p')
-  //      count = ft_pointer(type, list, str);
-   /* if (type == 'u')
-        count = ft_undesimal();
-   
-    if (type == 'X')
-        count = ft_hexupp();
- */
