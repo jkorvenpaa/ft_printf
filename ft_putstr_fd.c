@@ -6,11 +6,9 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 13:38:58 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/05/16 15:02:04 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:08:12 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*Outputs the string ’s’ to the specified file descriptor.*/
 
 #include "ft_printf.h"
 
@@ -21,7 +19,10 @@ int	ft_putstr_fd(char *s, int fd)
 
 	i = 0;
 	if (!s)
-		return (-1);
+	{
+		r = write (1, "(null)", 6);
+		return (r);
+	}
 	while (s[i])
 	{
 		r = ft_putchar_fd(s[i], fd);

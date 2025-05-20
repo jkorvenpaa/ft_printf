@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_decimal.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 14:23:37 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/05/19 17:57:30 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:07:41 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Outputs the integer ’n’ to the specified file
-descriptor.*/
-
 #include"ft_printf.h"
 
-int	ft_putnbr_fd(int n, int fd)
+static int	ft_putnbr_fd(int n, int fd)
 {
 	int	r;
 
 	r = 0;
-
 	if (n == -2147483648)
 		return (write(fd, "-2147483648", 11));
 	if (n < 0)
@@ -32,4 +28,14 @@ int	ft_putnbr_fd(int n, int fd)
 		r += ft_putnbr_fd(n / 10, fd);
 	r += ft_putchar_fd((n % 10) + '0', fd);
 	return (r);
+}
+
+int	ft_decimal(va_list *list)
+{
+	int	count;
+	int	d;
+
+	d = va_arg(*list, int);
+	count = ft_putnbr_fd(d, 1);
+	return (count);
 }
